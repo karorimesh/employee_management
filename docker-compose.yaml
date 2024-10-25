@@ -1,7 +1,7 @@
 version: "3"
 services:
   EmployeeManagement:
-    image: EmployeeManagement
+    image: karorimesh/employee-management:1.0.0
     user: root
     depends_on:
       - postgres
