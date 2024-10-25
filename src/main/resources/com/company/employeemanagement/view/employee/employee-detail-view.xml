@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://employeeDetailView.title"
+      focusComponent="form">
+    <data>
+        <instance id="employeeDc"
+                  class="com.company.employeemanagement.entity.Employee">
+            <fetchPlan extends="_base">
+                <property name="department" fetchPlan="_base"/>
+            </fetchPlan>
+            <loader id="employeeDl"/>
+        </instance>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
+    <actions>
+        <action id="saveAction" type="detail_saveClose"/>
+        <action id="closeAction" type="detail_close"/>
+    </actions>
+    <layout>
+        <entityComboBox id="departmentsComboBox" dataContainer="employeeDc" property="department" label="Department">
+            <itemsQuery class="com.company.employeemanagement.entity.Department" escapeValueForLike="true"
+                        searchStringFormat="(?i)%${inputString}%">
+                <fetchPlan extends="_base"/>
+                <query>
+                    <![CDATA[select e from Department e where e.name like :searchString escape '\' order by e.name]]>
+                </query>
+            </itemsQuery>
+            <actions>
+                <action id="entityClear" type="entity_clear"/>
+                <action id="entityLookup" type="entity_lookup"/>
+                <action id="entityOpen" type="entity_open"/>
+            </actions>
+        </entityComboBox>
+        <formLayout id="form" dataContainer="employeeDc">
+            <textField id="fullNameField" property="fullName"/>
+            <textField id="positionField" property="position"/>
+            <select id="employeeStatusField" property="employeeStatus" readOnly="true" placeholder="PENDING"/>
+            <textField id="emailField" property="email"/>
+            <textField id="phoneField" property="phone"/>
+        </formLayout>
+        <hbox id="detailActions">
+            <button id="saveAndCloseBtn" action="saveAction"/>
+            <button id="closeBtn" action="closeAction"/>
+        </hbox>
+    </layout>
+</view>
